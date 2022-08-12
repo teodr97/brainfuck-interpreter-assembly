@@ -10,7 +10,7 @@ format_str: .asciz "We should be executing the following code:\n%s"
 aasa: .asciz "AAAAAAAAA"
 FORMAT: 	.asciz "%c"
 
-# Your brainfuck subroutine will receive one argument:
+# The brainfuck subroutine will receive one argument:
 # a zero termianted string containing the code to execute.
 brainfuck:
 	pushq 	%rbp
@@ -31,7 +31,6 @@ brainfuck:
 
 
 	scanInstruction:
-	#addq	$1, %r10
 	movq 	(%r15), %r13
 
 	cmp 	$0x5B, %r13b
@@ -60,7 +59,6 @@ brainfuck:
 
 	endScanInstruction:
 	incq 	%r15
-	#cmpq 	$0xffffffffffffffff, %r11
 	je 	yes
 	jmp 	scanInstruction
 
@@ -83,13 +81,6 @@ brainfuck:
 	jmp		endScanInstruction
 
 	outputDataPointer:
-	#pushq 	%r15
-	#pushq 	%r14
-	#pushq 	%r13
-	#pushq 	%r12
-	#pushq 	%r11
-	#pushq 	%r10
-	#addq $7, (%r14)
 	movq 	(%r14), %rsi
 	shl 	$56, %rsi
 	shr 	$56, %rsi
@@ -98,12 +89,6 @@ brainfuck:
 	pushq 	%r11
 	call 	printf
 	popq 	%r11
-	#popq 	%r10
-	#popq 	%r11
-	#popq 	%r12
-	#popq 	%r13
-	#popq 	%r14
-	#popq 	%r15
 	jmp 	endScanInstruction
 
 	inputDataPointer:
@@ -127,10 +112,7 @@ brainfuck:
 	#movq $0, %rsi
 	movq $0, %rax
 	call scanf
-	#popq %r11
 
-#shl 	$56,                                                                                                                                                    %rsi
-	#shr 	$56,                                      %rsi
 	movq 8(%rsp), %rsi
 	movq %rsi, %r10
 	addq $16, %rsp
@@ -144,7 +126,6 @@ brainfuck:
 	insertY:
 	movq $1, %r12
 	pushq %r12
-	#movq 	$0, %r12
 	jmp aaadd
 
 	revert:
@@ -171,7 +152,6 @@ brainfuck:
 	endLoop:
 	cmpq 	$0, %r12
 	jg	 	skipEndLoop
-#	subq 	$1, %r11
 	movq 	(%r14), %r13
 	cmp 	$0, %r13b
 	je		endLoopNormal
@@ -185,7 +165,6 @@ brainfuck:
 	cmpq 	%r12, %r11
 	je 		endLoopSkip
 	subq	$1, %r11
-#	subq 	$1, %r11
 	jmp endScanInstruction
 
 	endLoopNormal:
@@ -197,13 +176,8 @@ brainfuck:
 	endLoopSkip:
 	movq 	$0, %r12
 	subq	$1, %r11
-#	subq 	$1, %r11
 	jmp		endScanInstruction
 
-#	breakDebug:
-#	cmpq 	$0xffffffffffffffff, %r11
-#	je 	yes
-#	jmp 	endScanInstruction
 
 	yes:
 	movq 	$aasa, %rdi
@@ -211,32 +185,7 @@ brainfuck:
 	call printf
 	jmp		endScanInstruction
 
-#	beginLoop:
-#	
-#	pushq %r12
-#	movq %r15, %r12
-#	cmpq $0, (%r14)
-#	jg loop_1
-#	jle SpecialCase
-#
-#	endLoop:
-#	cmpq $0, (%r14)
-#	jg loop_1
-#	jle reset_pointer
-#
-#	loop_1:
-#	movq %r12, %r15
-#	jmp endScanInstruction
-#
-#	SpecialCase:
-#
-#	reset_pointer:
-#	popq %r12
-#	jmp endScanInstruction
-
 	endRoutine:
-	#popq 	%r10
-	#popq 	%r11
 	popq 	%r12
 	popq 	%r13
 	popq 	%r14
