@@ -20,8 +20,6 @@ brainfuck:
 	pushq	%r14 
 	pushq 	%r13			# We'll be using %r13 to hold the instruction pointed at by %r15
 	pushq 	%r12			# We'll be using %r12 as a flag register
-	#pushq 	%r11			# We'll be using %r11 as the loop nest counter
-	#pushq 	%r10
 
 	movq 	$0, %r10
 	movq 	$0, %r11
